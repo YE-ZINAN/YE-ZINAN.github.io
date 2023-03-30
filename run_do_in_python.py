@@ -12,10 +12,10 @@ stata_cmds = [
     "exit" #better to keep the "exit" at the end of the do file
 ]
 
-do_file_path = "C:\\Users\\86134\\Desktop\\stata_commands.do" #temp do-file
+do_file_path = r"path\to\stata_commands.do" #temp do-file
 with open(do_file_path, "w", encoding='utf-8') as f:
     f.write("\n".join(stata_cmds))
-cmd_file_path = "C:\\Users\\86134\\Desktop\\stata_run.cmd" #temp cmd file
+cmd_file_path = r"path\to\stata_run.cmd" #temp cmd file
 with open(cmd_file_path, "w", encoding='utf-8') as f:
     f.write(f'"{stata_path}" -b do "{do_file_path}"\n')
 return_code = subprocess.call(["cmd.exe", "/c", cmd_file_path])
