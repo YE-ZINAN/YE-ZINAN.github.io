@@ -4,7 +4,8 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
 
 ## Most excited:
 - 🌱 write & run do file code with python (generated with the help of GPT4)
-
+- 🌱 matlab2py: translate matlab dynare code (model section) to python SSJ model format
+- 
 ## About Me
 
 - 🔭 I’m currently working on China political economics and income inequality
