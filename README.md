@@ -7,7 +7,7 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
 
 ## About Me
 
-- 🔭 I’m currently working on buseniess cycle and income inequality
+- 🔭 I’m currently working on China political economics and income inequality
 - 💬 Ask me about anything
 - 📫 How to reach me: zinanye3-c@my.cityu.edu.hk
 
