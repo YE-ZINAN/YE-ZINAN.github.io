@@ -1,0 +1,100 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[english]{babel}
+
+% 加导航条
+
+% 目录标数字
+\setbeamertemplate{section in toc}[sections numbered] 
+% 无序列表用实心点
+\setbeamertemplate{itemize item}{$\bullet$}
+% 设置每页标题格式
+\setbeamertemplate{frametitle}
+{
+	\insertframetitle
+	\vspace{-0.5cm}}
+% 去掉下面没用的导航条
+%\setbeamertemplate{navigation symbols}{}
+% 设置页脚格式
+\makeatother
+\setbeamertemplate{footline}
+{
+	\leavevmode%
+	\hbox{%
+		\begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+			\usebeamerfont{author in head/foot}\insertshortauthor
+		\end{beamercolorbox}
+		
+		\begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+			\usebeamerfont{title in head/foot}\insertshorttitle\hspace*{13em}
+			\insertframenumber{} / \inserttotalframenumber\hspace*{0ex}
+	\end{beamercolorbox}}
+	
+	\vskip0pt%
+}
+\makeatletter
+
+
+% 定义颜色
+%\definecolor{alizarin}{rgb}{0.82, 0.1, 0.26} % 红色
+%\definecolor{DarkFern}{HTML}{407428} % 绿色
+%\colorlet{main}{DarkFern!100!white} % 第一种设置方法
+%\colorlet{main}{red!70!black} % 第二种设置方法
+\definecolor{bistre}{rgb}{0.24, 0.17, 0.12} % 黑色
+\definecolor{mygrey}{rgb}{0.52, 0.52, 0.51} % 灰色
+\colorlet{main}{green!50!black}
+\colorlet{text}{bistre!100!white}
+
+% 不同元素指定不同颜色，fg是本身颜色，bg是背景颜色，!num!改变数值提供渐变色
+\setbeamercolor{title}{fg=main}
+\setbeamercolor{frametitle}{fg=main}
+\setbeamercolor{section in toc}{fg=text}
+\setbeamercolor{normal text}{fg=text}
+\setbeamercolor{block title}{fg=main,bg=mygrey!14!white}
+\setbeamercolor{block body}{fg=black,bg=mygrey!10!white}
+\setbeamercolor{qed symbol}{fg=main} % 证明结束后的框颜色
+\setbeamercolor{math text}{fg=black}
+% 设置页脚对应位置颜色
+\setbeamercolor{author in head/foot}{fg=black, bg=mygrey!5!white}
+\setbeamercolor{title in head/foot}{fg=black, bg=mygrey!5!white}
+\setbeamercolor{structure}{fg=main, bg=mygrey!10!white} % 设置sidebar颜色
+
+% 左右页间距的排版
+\def\swidth{0.2cm}
+\setbeamersize{sidebar width right=\swidth}
+\setbeamersize{sidebar width left=\swidth}
+\setbeamerfont{title in sidebar}{size=\scriptsize}
+\setbeamerfont{section in sidebar}{size=\tiny}
+
+
+%-------------------正文-------------------------%
+
+\author{Your Name}
+\title{Presentation Title}
+\date{January 1, 2018}
+
+\begin{document}
+	
+	\frame[plain]{\titlepage}
+	
+	
+	\begin{frame}
+		\frametitle{Page Title}
+		
+		TeX - LaTeX Stack Exchange is a question and answer site for users of TeX, LaTeX, ConTeXt, and related typesetting systems.
+		
+		\vspace{0.4cm}
+		
+		unordered list below
+		
+		\begin{itemize}
+			\item The first item
+			\item The second item
+			\item The third item
+			\item The fourth item
+		\end{itemize}
+		
+	\end{frame}
+	
+	
+	
+\end{document}
