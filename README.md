@@ -5,7 +5,7 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
 ## Most excited:
 - 🌱 write & run do file code with python (generated with the help of GPT4)
 - 🌱 matlab2py: translate matlab dynare code (model section) to python SSJ model format
-- 
+- 🌱 trend_viewer: statistical trend of individual of interest (panel data)
 ## About Me
 
 - 🔭 I’m currently working on China political economics and income inequality
