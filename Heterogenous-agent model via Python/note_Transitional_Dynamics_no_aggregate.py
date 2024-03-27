@@ -145,7 +145,7 @@ for e in range(2):
 K_init = 0
 for e in range(2):
     K_init += np.vdot(f_init[e,:],a_space)
-loca=r'D:\onedrive\OneDrive - City University of Hong Kong - Student\大学博一上主课\nber-workshop-2023-main\2024computation_note\note_TD_no_aggregate.xlsx'
+loca=r'...\note_TD_no_aggregate.xlsx'
 #Change loca to your own path
 
 wb=openpyxl.load_workbook(loca)
