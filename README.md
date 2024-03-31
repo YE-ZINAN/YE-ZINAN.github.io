@@ -4,7 +4,7 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
 
 ## Most excited:
 - 🌱 Heterogenous-agent model via python
-  -   Airagari 1994 with endogenous grids: [note_ss.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/edit/main/README.md)
+  -   Airagari 1994 with endogenous grids: [note_ss.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_ss.py)
 - 🌱 write & run do file code with python (generated with the help of GPT4)
 - 🌱 matlab2py: translate matlab dynare code (model section) to python SSJ model format
 - 🌱 trend_viewer: statistical trend of individual of interest (panel data)
