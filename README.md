@@ -6,6 +6,8 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
 - 🌱 Heterogenous-agent model via python
   -   Airagari 1994 with endogenous grids: [note_ss.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_ss.py).
       -   Algorithm 7.2.1 in Heer and Maußner (2009)
+      -   Policy function：
+      -   ![p](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/policy_function.png)
   -   Transition dynamics with aggregate K in value function: [note_Transitional_Dynamics.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_Transitional_Dynamics.py).
       -   Algorithm 8.2.1 in Heer and Maußner (2009)
       -   Graph of K transition：
