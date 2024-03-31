@@ -26,6 +26,7 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
       -   ![Stylized K transition](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/KS_K_path.png)
   -   MIT shock: [note_MITshock2018.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_MITshock2018.py)
       -   Algorithm of Boppart et al. (2018)
+      -   Can apply [note_MITshock2018.xlsx](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_MITshock2018.xlsx) to skip iteration
       -   TFP impluse response:
       -   ![TFP impluse response](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/MIT_impluse.png)
 - 🌱 write & run do file code with python (generated with the help of GPT4)
