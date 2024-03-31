@@ -30,4 +30,5 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
 - 🔭 I’m currently working on China political economics and income inequality
 - 💬 Ask me about anything
 - 📫 How to reach me: zinanye3-c@my.cityu.edu.hk
+- 🫡 Link of my official page: https://scholars.cityu.edu.hk/en/persons/zinan-ye(0ab100b3-621e-4619-b932-aca38cf4b2c9).html
 
