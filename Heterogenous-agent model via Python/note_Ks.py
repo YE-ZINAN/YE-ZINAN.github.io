@@ -356,7 +356,7 @@ def H_converge():
     Z_path = generate_Z_path(PiZ, Zg, Zb, T)
     Z_path[:10] = [Zg for i in range(10)]
 
-    #Separating good and bad periods
+    #Separating good and bad periods, discard first 500 periods
     Zg_list, Zb_list = [], []
     for z in range(500,len(Z_path)-1):
         if Z_path[z] == Zg:
