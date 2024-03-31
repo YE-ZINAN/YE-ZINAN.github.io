@@ -22,6 +22,10 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
       -   Algorithm 8.3.1 in Heer and Maußner (2009)
       -   Stylized K transition:
       -   ![Stylized K transition](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/KS_K_path.png)
+  -   MIT shock: [note_MITshock2018.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_MITshock2018.py)
+      -   Algorithm of Boppart et al. (2018)
+      -   TFP impluse response:
+      -   ![TFP impluse response](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/MIT_impluse.png)
 - 🌱 write & run do file code with python (generated with the help of GPT4)
 - 🌱 matlab2py: translate matlab dynare code (model section) to python SSJ model format
 - 🌱 trend_viewer: statistical trend of individual of interest (panel data)
