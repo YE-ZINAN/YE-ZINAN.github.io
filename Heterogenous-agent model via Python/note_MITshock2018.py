@@ -144,7 +144,7 @@ if from_xlsx == 0:
         v = 0.005
         K_ss_1 = v * K_ss + (1-v) * K_ss_1
 else:
-    loca=r'D:\onedrive\OneDrive - City University of Hong Kong - Student\大学博一上主课\nber-workshop-2023-main\2024computation_note\note_MITshock2018.xlsx'
+    loca=r'...\note_MITshock2018.xlsx'
     wb=openpyxl.load_workbook(loca)
     Va_ss,f_ss,a_ss,c_ss,K_ss = np.zeros((2,201)),np.zeros((2,201)),np.zeros((2,201)),np.zeros((2,201)),250.5376092375545
     sheet=wb['f']
