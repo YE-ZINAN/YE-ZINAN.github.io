@@ -72,12 +72,12 @@ def backward_iteration(Va_init,Pi,w,b,tau,r,beta,eta,K):
     Va_new = (1+(1-tau)*r) * c**(-eta) #envelope condition
     return Va_new, a1, c
 Hs=0
-def steady_state_policy(N,K,alpha,Pi,a_space,w,b,r,tau,eta,beta,tol):
+def steady_state_policy(Va1,N,K,alpha,Pi,a_space,w,b,r,tau,eta,beta,tol):
     #initial guess of Va_init: assuming consume 5% of cash on hand
     coh_guess = income(w,b,tau,N,K,alpha) + (1+(1-tau)*r) * a_space
     c_guess = 0.05 * coh_guess
     Va_guess = (1+(1-tau)*r) * c_guess**(-eta)
-    Va = Va_guess
+    Va = Va1
     #Iteration until error of new and old asset below tolerance:
     for _ in range(10000): #Maximum steps of iteration: 10000
         Va, a, c = backward_iteration(Va,Pi,w,b,tau,r,beta,eta,K)
@@ -145,7 +145,7 @@ for e in range(2):
 K_init = 0
 for e in range(2):
     K_init += np.vdot(f_init[e,:],a_space)
-loca=r'...\note_TD_no_aggregate.xlsx'
+loca=r'D:\onedrive\OneDrive - City University of Hong Kong - Student\大学博一上主课\nber-workshop-2023-main\2024computation_note\note_TD_no_aggregate.xlsx'
 #Change loca to your own path
 
 wb=openpyxl.load_workbook(loca)
@@ -178,7 +178,7 @@ for e in range(2):
     K_ss += np.vdot(f_ss[e],a_ss[e])
 
 #Guess the time path of K, r, w
-T = 500
+T = 5000
 K_guess = np.linspace(K_init,K_ss,T)
 r_guess = np.zeros_like(K_guess)
 w_guess = np.zeros_like(K_guess)
@@ -187,7 +187,7 @@ for k in range(len(K_guess)):
     w_guess[k] = wfn(N,K_guess[k],alpha)
 shape = [T,2,na]
 Hs = 1
-
+plt.plot(np.linspace(1,1+T,T),K_guess,label = 'Initial guess')
 for _ in range(10000):
     print('Iteration step: '+str(_))
     f = f_init
@@ -199,10 +199,16 @@ for _ in range(10000):
     Va[-1] = Va_ss
     a[-1] = a_ss
     c[-1] = c_ss
+    r_guess = np.zeros_like(K_guess)
+    w_guess = np.zeros_like(K_guess)
+    for k in range(len(K_guess)):
+        r_guess[k] = rfn(N,K_guess[k],alpha,delta)
+        w_guess[k] = wfn(N,K_guess[k],alpha)
     for t in reversed(range(T-1)): #Backward iteration from T-1 to 1
         w = w_guess[t]
         r = r_guess[t]
-        Va[t], a[t] ,c[t] = steady_state_policy(N,K_guess[t],alpha,Pi,a_space,w,b,r,tau,eta,beta,tol)
+        Va[t], a[t] ,c[t] = backward_iteration(Va[t+1],Pi,w,b,tau,r,beta,eta,K_guess[t])
+        #Va[t], a[t] ,c[t] = steady_state_policy(N,K_guess[t],alpha,Pi,a_space,w,b,r,tau,eta,beta,tol)
     for t in range(1,T):
         f = forward_iteration(a[t],a_space,flist[-1])
         flist.append(f)
@@ -210,10 +216,12 @@ for _ in range(10000):
     #Compute new path of K, r and w
     K_guess_new = np.zeros_like(K_guess) 
     for t in range(T):
-        for e in range(2):
-            K_guess_new[t] += np.vdot(flist[t,e],a[t,e,:])
-    if _ ==1  or _ == 0 or _ == 3 or _ == 5  or _ == 10:
+        K_guess_new[t] = np.vdot(flist[t,:,:],a[t,:,:])
+    print('Maximum error :')
+    print(np.max(np.abs(K_guess_new - K_guess)),'\n')
+    if _ == 3 or _ == 5  or _ == 10 or _ == 30 or _ ==50:
         plt.plot(np.linspace(1,1+T,T),K_guess_new,label = 'Iteration Step: '+str(_))
+        pass
     if np.max(np.abs(K_guess_new - K_guess)) < tol:
         print(_,np.max(np.abs(K_guess_new - K_guess)))
         plt.plot(np.linspace(1,1+T,T),K_guess_new,label = 'Converged K Path')
@@ -221,16 +229,20 @@ for _ in range(10000):
         plt.show()
         break
     else:
-        v = 0.7
+        v = 0.2
         K_guess = v * K_guess_new + (1-v) * K_guess
         for k in range(len(K_guess)):
             r_guess[k] = rfn(N,K_guess[k],alpha,delta)
             w_guess[k] = wfn(N,K_guess[k],alpha)
-    print('Maximum error :')
-    print(np.max(np.abs(K_guess_new - K_guess)))
+        
+print(np.max(np.abs(f - f_ss)))
 
-
-
-
+def plotf():
+    plt.plot(a_space,f[0,:],label='f0')
+    plt.plot(a_space,f[1,:],label='f1')
+    plt.plot(a_space,f_ss[0,:],label='fss0')
+    plt.plot(a_space,f_ss[1,:],label='fss1')
+    plt.legend()
+    plt.show()
 
 
