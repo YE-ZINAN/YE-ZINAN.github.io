@@ -234,51 +234,32 @@ def forward_iteration(a,wk, kt, a_space, f0,Z,Pi,Z0):
 
     if Z == Zb:
         a = a[:,0:2,:] #(be, bu)
-        for e in range(2):
-            for k in [kt,kt+1]:
-                for i in range(len(a_space)):
-                    a[k,e,i] = np.maximum(a[k,e,i],a_space[0])
-                    a[k,e,i] = np.minimum(a[k,e,i],a_space[-1])
-                    #Search the interpolation of individual asset
-                    #an<= a[k,e,i] <=an+1
-                    #wa: weight assigned to an
-
-                    #Loop all grid points of individual asset
-                    for n in range(len(a_space)):
-                        if a[k,e,i] >= a_space[n] and a[k,e,i] <= a_space[n+1]:
-                            interval = [n,n+1]
-                            break
-                        else:
-                            continue
-                    if k == kt:
-                        wa = (a_space[interval[1]] - a[k,e,i])/(a_space[interval[1]] - a_space[interval[0]])
-                        f1[e,interval[0]] += wk * wa * f0[e,i]
-                        f1[e,interval[1]] += wk * (1-wa) * f0[e,i]
-                    else:
-                        wa = (a_space[interval[1]] - a[k,e,i])/(a_space[interval[1]] - a_space[interval[0]])
-                        f1[e,interval[0]] += (1-wk) * wa * f0[e,i]
-                        f1[e,interval[1]] += (1-wk) * (1-wa) * f0[e,i]
     else:
         a = a[:,2:4,:] #(ge, gu)
-        for e in range(2):
-            for k in [kt,kt+1]:
-                for i in range(len(a_space)):
-                    a[k,e,i] = np.maximum(a[k,e,i],a_space[0])
-                    a[k,e,i] = np.minimum(a[k,e,i],a_space[-1])
-                    for n in range(len(a_space)):
-                        if a[k,e,i] >= a_space[n] and a[k,e,i] <= a_space[n+1]:
-                            interval = [n,n+1]
-                            break
-                        else:
-                            continue
-                    if k == kt:
-                        wa = (a_space[interval[1]] - a[k,e,i])/(a_space[interval[1]] - a_space[interval[0]])
-                        f1[e,interval[0]] += wk * wa * f0[e,i]
-                        f1[e,interval[1]] += wk * (1-wa) * f0[e,i]
+    for e in range(2):
+        for k in [kt,kt+1]:
+            for i in range(len(a_space)):
+                a[k,e,i] = np.maximum(a[k,e,i],a_space[0])
+                a[k,e,i] = np.minimum(a[k,e,i],a_space[-1])
+                #Search the interpolation of individual asset
+                #an<= a[k,e,i] <=an+1
+                #wa: weight assigned to an
+
+                #Loop all grid points of individual asset
+                for n in range(len(a_space)):
+                    if a[k,e,i] >= a_space[n] and a[k,e,i] <= a_space[n+1]:
+                        interval = [n,n+1]
+                        break
                     else:
-                        wa = (a_space[interval[1]] - a[k,e,i])/(a_space[interval[1]] - a_space[interval[0]])
-                        f1[e,interval[0]] += (1-wk) * wa * f0[e,i]
-                        f1[e,interval[1]] += (1-wk) * (1-wa) * f0[e,i]
+                        continue
+                if k == kt:
+                    wa = (a_space[interval[1]] - a[k,e,i])/(a_space[interval[1]] - a_space[interval[0]])
+                    f1[e,interval[0]] += wk * wa * f0[e,i]
+                    f1[e,interval[1]] += wk * (1-wa) * f0[e,i]
+                else:
+                    wa = (a_space[interval[1]] - a[k,e,i])/(a_space[interval[1]] - a_space[interval[0]])
+                    f1[e,interval[0]] += (1-wk) * wa * f0[e,i]
+                    f1[e,interval[1]] += (1-wk) * (1-wa) * f0[e,i]
 
     #Employment state transition: from last period Z0 to today's Z
     if Z0 == Zb and Z == Zb:
@@ -324,14 +305,6 @@ def generate_Z_path(PiZ, Zg,Zb, T):
             current_state = next_state
     return Z_path
 
-def plot_kpath(T):
-    plt.plot(np.linspace(500,T,T-500),K_path[500:],label='K',linewidth = 0.8)
-    plt.xlabel('Simulation periods')
-    plt.legend()
-    plt.show()
-
-#plot_kpath(T)
-
 #6. Estimation of law of motion H with OLS
 def ols(y,x):
     x = sm.add_constant(x)
@@ -356,7 +329,7 @@ def H_converge():
     Z_path = generate_Z_path(PiZ, Zg, Zb, T)
     Z_path[:10] = [Zg for i in range(10)]
 
-    #Separating good and bad periods, discard first 500 periods
+    #Separating good and bad periods
     Zg_list, Zb_list = [], []
     for z in range(500,len(Z_path)-1):
         if Z_path[z] == Zg:
@@ -415,7 +388,7 @@ def H_converge():
             print('H parameters converge at interation '+str(i+1))
             print('R2 of good time: '+str(r2g)+'. Estimated law of motion: ln(K\') = '+str(coefg[0])+' + '+str(coefg[1])+'ln(K)')
             print('R2 of bad time: '+str(r2b)+'. Estimated law of motion: ln(K\') = '+str(coefb[0])+' + '+str(coefb[1])+'ln(K)')
-            return K_path, Zg_list, Zb_list, flist, Va, a ,c
+            return K_path, Zg_list, Zb_list, flist, Va, a ,c, Z_path
             break
         else:
             print('Interation step: '+str(i+1)+'. Parameters of good time and bad time:')
@@ -436,22 +409,39 @@ def H_converge():
             yb1 = coefb[1] * v + yb1 * (1-v)
 
 #Plot accordingly
-K_path, Zg_list, Zb_list, flist, Va, a ,c = H_converge()
+K_path, Zg_list, Zb_list, flist, Va, a ,c, Z_path = H_converge()
 
+def plot_kpath():
+    T = 3000
+    plt.plot(np.linspace(500,T,T-500),K_path[500:],label='K',linewidth = 0.8)
+    plt.xlabel('Simulation periods')
+    plt.legend()
+    plt.show()
 
+def plot_fpath_first():
+    for t in range(5):
+        plt.plot(a_space,flist[t][0,:],label = str(t)+', unemployed')
+        plt.plot(a_space,flist[t][1,:],label = str(t)+', employed')
+        plt.legend()
+        if Z_path[t] == 1.01:
+            plt.title('period ' + str(t) + ' is in good time')
+        else:
+            plt.title('period ' + str(t) + ' is in bad time')
+        plt.show()
 
+def plot_fpath_end():
+    for t in range(5):
+        plt.plot(a_space,flist[t-5][0,:],label = str(t-5)+', unemployed')
+        plt.plot(a_space,flist[t-5][1,:],label = str(t-5)+', employed')
+        plt.legend()
+        if Z_path[t-5] == Zg:
+            plt.title('last period ' + str(t-5) + ' is in good time')
+        else:
+            plt.title('last period ' + str(t-5) + ' is in bad time')
+        plt.show()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+pre = 1
+if pre ==1:
+    plot_kpath()
+    plot_fpath_first()
+    plot_fpath_end()
