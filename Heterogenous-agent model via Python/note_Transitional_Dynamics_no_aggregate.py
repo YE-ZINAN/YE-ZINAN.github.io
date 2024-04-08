@@ -80,7 +80,7 @@ def steady_state_policy(N,K,alpha,Pi,a_space,w,b,r,tau,eta,beta,tol):
     #Iteration until error of new and old asset below tolerance:
     for _ in range(10000): #Maximum steps of iteration: 10000
         Va, a, c = backward_iteration(Va,Pi,w,b,tau,r,beta,eta,K)
-        if _>0 and np.max(np.abs(a - a_old)) < tol:
+        if _>0 and np.max(np.abs(a - a_old)) < 1E-15:
             if Hs==0:
                 print('Backward iteration stops at step '+str(_)+'. Error: '+str(np.max(np.abs(a - a_old))))
             return Va, a, c
@@ -173,7 +173,7 @@ shape = [T,2,na]
 Hs = 1
 
 for _ in range(10000):
-    print(_)
+    print('Iteration step: '+str(_))
     f = f_init
     flist = []
     flist.append(f)
@@ -183,35 +183,51 @@ for _ in range(10000):
     Va[-1] = Va_ss
     a[-1] = a_ss
     c[-1] = c_ss
+    r_guess = np.zeros_like(K_guess)
+    w_guess = np.zeros_like(K_guess)
+    for k in range(len(K_guess)):
+        r_guess[k] = rfn(N,K_guess[k],alpha,delta)
+        w_guess[k] = wfn(N,K_guess[k],alpha)
     for t in reversed(range(T-1)): #Backward iteration from T-1 to 1
         w = w_guess[t]
         r = r_guess[t]
-        Va[t], a[t] ,c[t] = steady_state_policy(N,K_guess[t],alpha,Pi,a_space,w,b,r,tau,eta,beta,tol)
+        Va[t], a[t] ,c[t] = backward_iteration(Va[t+1],Pi,w,b,tau,r,beta,eta,K_guess[t])
+        #Va[t], a[t] ,c[t] = steady_state_policy(N,K_guess[t],alpha,Pi,a_space,w,b,r,tau,eta,beta,tol)
     for t in range(1,T):
         f = forward_iteration(a[t],a_space,flist[-1])
         flist.append(f)
     flist = np.array(flist)
     #Compute new path of K, r and w
-    K_guess_new = np.zeros_like(K_guess)
-    if _ % 5 or _ == 0:
-        plt.plot(np.linspace(1,1+T,T),K_guess_new,label = 'Iteration Step: '+str(_))
+    K_guess_new = np.zeros_like(K_guess) 
     for t in range(T):
-        for e in range(2):
-            K_guess_new[t] += np.vdot(flist[t,e],a[t,e,:])
+        K_guess_new[t] = np.vdot(flist[t,:,:],a[t,:,:])
+    print('Maximum error :')
+    print(np.max(np.abs(K_guess_new - K_guess)),'\n')
+    if _ == 3 or _ == 5  or _ == 10 or _ == 30 or _ ==50:
+        plt.plot(np.linspace(1,1+T,T),K_guess_new,label = 'Iteration Step: '+str(_))
+        pass
     if np.max(np.abs(K_guess_new - K_guess)) < tol:
         print(_,np.max(np.abs(K_guess_new - K_guess)))
         plt.plot(np.linspace(1,1+T,T),K_guess_new,label = 'Converged K Path')
+        plt.legend()
         plt.show()
         break
     else:
-        v = 0.7
+        v = 0.2
         K_guess = v * K_guess_new + (1-v) * K_guess
         for k in range(len(K_guess)):
             r_guess[k] = rfn(N,K_guess[k],alpha,delta)
             w_guess[k] = wfn(N,K_guess[k],alpha)
-    print(np.max(np.abs(K_guess_new - K_guess)))
+        
+print(np.max(np.abs(f - f_ss)))
 
-
+def plotf():
+    plt.plot(a_space,f[0,:],label='f0')
+    plt.plot(a_space,f[1,:],label='f1')
+    plt.plot(a_space,f_ss[0,:],label='fss0')
+    plt.plot(a_space,f_ss[1,:],label='fss1')
+    plt.legend()
+    plt.show()
 
 
 
