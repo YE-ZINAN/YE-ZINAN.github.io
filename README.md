@@ -20,6 +20,8 @@ Welcome to my Github page! I'm a PhD student of City University of Hong Kong. Re
       -   fast.py need the steady state data in [note_TD_no_aggregate.xlsx](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_TD_no_aggregate.xlsx) and change the path to .xlsx in fast.py.
       -   Graph of guess path transition:
       -   ![Graph of guess path transition](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/TD_no_aggre_guess.png)
+      -   Graph of end-of-period distribution and steady state distribution:
+      -   ![Graph of guess path f](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/TD_no_aggre_f.png)
   -   Krusell and Smith 1998 with endogenous grids: [note_Ks.py](https://github.com/YE-ZINAN/YE-ZINAN.github.io/blob/main/Heterogenous-agent%20model%20via%20Python/note_Ks.py).
       -   Algorithm 8.3.1 in Heer and Maußner (2009)
       -   Stylized K transition:
