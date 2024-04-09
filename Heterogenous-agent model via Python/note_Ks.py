@@ -232,7 +232,8 @@ def forward_iteration(a,wk, kt, a_space, f0,Z,Pi,Z0):
     #a: optimal policy function for a'(k,Z,e,a)
     f1 = np.zeros_like(f0)
 
-    if Z == Zb:
+    #First, interpolation of endogenous choices
+    if Z0 == Zb:
         a = a[:,0:2,:] #(be, bu)
     else:
         a = a[:,2:4,:] #(ge, gu)
@@ -261,6 +262,7 @@ def forward_iteration(a,wk, kt, a_space, f0,Z,Pi,Z0):
                     f1[e,interval[0]] += (1-wk) * wa * f0[e,i]
                     f1[e,interval[1]] += (1-wk) * (1-wa) * f0[e,i]
 
+    #Second, exogenous dynamics
     #Employment state transition: from last period Z0 to today's Z
     if Z0 == Zb and Z == Zb:
         f1 = PiZb.T @ f1
@@ -273,7 +275,7 @@ def forward_iteration(a,wk, kt, a_space, f0,Z,Pi,Z0):
     return f1
 
 
-T = 2000 #Simulation period
+T = 3000 #Simulation period
 #Initial distributio at period 0
 f_init = np.zeros((2,na)) #(2,101): [employment_states, asset]
 for e in range(2):
@@ -364,17 +366,20 @@ def H_converge():
             Z = Z_path[_]
             Z0 = Z_path[_-1]
             K = K_path[-1]
-            if Z == Zg:
+            if Z0 == Zg:
                 wt, kt = interp_K(K,yg0,yg1)
-            if Z == Zb:
+            else:
                 wt, kt = interp_K(K,yb0,yb1)
-            #f = forward_iteration(a[:,0:2,:], wt, kt, a_space, flist[_-1],PiZb)
+            K = 0
+            if Z0 == Zg:
+                for e in range(2):
+                    K += np.vdot(flist[-1][e,:],wt * a[kt,e+2,:] + (1-wt) * a[kt+1,e+2,:])
+            else:
+                for e in range(2):
+                    K += np.vdot(flist[-1][e,:],wt * a[kt,e,:] + (1-wt) * a[kt+1,e,:])
+            K_path.append(K)
             f = forward_iteration(a,wt, kt, a_space, flist[-1],Z,Pi,Z0)
             flist.append(f)
-            K = 0
-            for e in range(2):
-                K += np.vdot(f[e,:],a_space)
-            K_path.append(K)
 
         #Estimate new parameters for good time and bad time, respectively
         r2g, coefg = ols(np.log([K_path[z+1] for z in Zg_list]),np.log([K_path[z] for z in Zg_list]))
@@ -440,7 +445,7 @@ def plot_fpath_end():
             plt.title('last period ' + str(t-5) + ' is in bad time')
         plt.show()
 
-pre = 1
+pre = 0
 if pre ==1:
     plot_kpath()
     plot_fpath_first()
