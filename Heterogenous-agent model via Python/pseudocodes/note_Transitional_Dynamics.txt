@@ -15,7 +15,7 @@ For i in max_iteration_steps:
 	K_path[1] = Aggregator(f_init)
 	Va_ss, a_ss, c_ss = steady_state_policy(Va_init, law_of_motion)
 	For t from 2 to T:
-		f_path[t] = forward_iteration(a_ss(K_path[t-1]), f_path[t-1],)
+		f_path[t] = forward_iteration(a_ss(K_path[t-1]), f_path[t-1])
 		K_path[t] = Aggregator(f_path[t-1], a_ss(K_path[t-1]))
 	r2, y0_new, y1_new = OLS( y = K_path[2 to 2+OLS_window], x = K_path[1 to 1+OLS_window])
 		if max(y0_new – y0, y1_new – y1) < 1E-5:
